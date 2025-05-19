@@ -1,7 +1,16 @@
 import {Client} from 'pg';
 
 const client = new Client({
-    connectionString: "postgresql://postgres:mysecretpassword@localhost/postgres"
+    
+    
+        host: "localhost",
+        port: 5432,
+        database: "postgres",
+        user: "postgres",
+        password: "mysecretpassword"
+    
+    
+    // connectionString: "postgresql://postgres:mysecretpassword@localhost/postgres"
 })
 
 
@@ -29,12 +38,12 @@ async function insertInUserTable(){
     await client.connect();
     const result = await client.query(`
     
-        INSERT INTO users(username, email, password) VALUES('ayush2', 'ayush2@ayush.com', 'password');
+        INSERT INTO users(username, email, password) VALUES('ayush3', 'ayush3@ayush.com', 'password');
     `)
     console.log(result)
 }
 
-// insertInUserTable(); 
+insertInUserTable(); 
 
 
 async function getUsers() {
@@ -44,4 +53,4 @@ async function getUsers() {
 }
 
 
-getUsers();
+// getUsers();
