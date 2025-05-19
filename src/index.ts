@@ -34,17 +34,17 @@ async function createUserTable(){
 
 // createUserTable();   // already executed (users table is created)
 
-async function insertInUserTable(){
+async function insertInUserTable(username: string, email: string, password: string){
     await client.connect();
-    const result = await client.query(`
-    
-        INSERT INTO users(username, email, password) VALUES('ayush3', 'ayush3@ayush.com', 'password');   
-    `)
+    const insertQuery = "INSERT INTO users (username, email, password) VALUES($1, $2, $3)";
+    const values = [username, email, password];
+    // better way to insert instead of directly providing complete query
+    const result = await client.query(insertQuery, values);
     // make sure that the values you are providing is in single quotes not in double quotes
     console.log(result)
 }
 
-// insertInUserTable(); 
+// insertInUserTable("ayush4", "ayush4@ayush.com", "password"); 
 
 
 async function getUsers() {

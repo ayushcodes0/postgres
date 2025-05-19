@@ -11,11 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = require("pg");
 const client = new pg_1.Client({
+    // This works fine
     host: "localhost",
     port: 5432,
     database: "postgres",
     user: "postgres",
     password: "mysecretpassword"
+    // This also works fine
     // connectionString: "postgresql://postgres:mysecretpassword@localhost/postgres"
 });
 function createUserTable() {
@@ -36,17 +38,17 @@ function createUserTable() {
     });
 }
 // createUserTable();   // already executed (users table is created)
-function insertInUserTable() {
+function insertInUserTable(username, email, password) {
     return __awaiter(this, void 0, void 0, function* () {
         yield client.connect();
-        const result = yield client.query(`
-    
-        INSERT INTO users(username, email, password) VALUES('ayush3', 'ayush3@ayush.com', 'password');
-    `);
+        const insertQuery = "INSERT INTO users (username, email, password) VALUES($1, $2, $3)";
+        const values = [username, email, password];
+        const result = yield client.query(insertQuery, values);
+        // make sure that the values you are providing is in single quotes not in double quotes
         console.log(result);
     });
 }
-// insertInUserTable(); 
+// insertInUserTable("ayush4", "ayush4@ayush.com", "password"); 
 function getUsers() {
     return __awaiter(this, void 0, void 0, function* () {
         yield client.connect(); // optional if already connected
