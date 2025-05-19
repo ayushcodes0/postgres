@@ -23,4 +23,25 @@ async function createUserTable(){
     console.log(result);
 }
 
-createUserTable();
+// createUserTable();   // already executed (users table is created)
+
+async function insertInUserTable(){
+    await client.connect();
+    const result = await client.query(`
+    
+        INSERT INTO users(username, email, password) VALUES('ayush2', 'ayush2@ayush.com', 'password');
+    `)
+    console.log(result)
+}
+
+// insertInUserTable(); 
+
+
+async function getUsers() {
+    await client.connect(); // optional if already connected
+    const result = await client.query(`SELECT * FROM users;`);
+    console.log('Users:', result.rows);
+}
+
+
+getUsers();

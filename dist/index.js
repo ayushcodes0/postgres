@@ -30,4 +30,23 @@ function createUserTable() {
         console.log(result);
     });
 }
-createUserTable();
+// createUserTable();   // already executed (users table is created)
+function insertInUserTable() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield client.connect();
+        const result = yield client.query(`
+    
+        INSERT INTO users(username, email, password) VALUES('ayush2', 'ayush2@ayush.com', 'password');
+    `);
+        console.log(result);
+    });
+}
+// insertInUserTable(); 
+function getUsers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield client.connect(); // optional if already connected
+        const result = yield client.query(`SELECT * FROM users;`);
+        console.log('Users:', result.rows);
+    });
+}
+getUsers();
