@@ -64,4 +64,33 @@ function getUsers(email) {
         }
     });
 }
-getUsers("ayush2@ayush.com");
+// getUsers("ayush333@ayush.com");
+function getAllUsers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect(); // optional if already connected
+            const query = "SELECT * FROM users;"; // $1 is nothing but the first argument expected inside the function.
+            const result = yield client.query(query);
+            console.log('Users:', result.rows);
+        }
+        catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    });
+}
+getAllUsers();
+function updateUserEmail(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const query = "UPDATE users SET email = 'ayushhhhhhh@ayush.com' WHERE id = $1 ";
+            const values = [id];
+            const result = yield client.query(query, values);
+            console.log('user updated successfully', result);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+}
+// updateUserEmail(1);

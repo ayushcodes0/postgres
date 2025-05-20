@@ -59,6 +59,34 @@ async function getUsers(email: string) {
     }
 }
 
+// getUsers("ayush333@ayush.com");
 
 
-getUsers("ayush2@ayush.com");
+async function getAllUsers() {
+    try {
+        await client.connect(); // optional if already connected
+        const query = "SELECT * FROM users;";   // $1 is nothing but the first argument expected inside the function.
+        const result = await client.query(query);
+        console.log('Users:', result.rows);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
+}
+
+getAllUsers();
+
+
+async function updateUserEmail(id: number){
+    try{
+        await client.connect();
+        const query = "UPDATE users SET email = 'ayushhhhhhh@ayush.com' WHERE id = $1 ";
+        const values = [id];
+        const result = await client.query(query,values);
+        console.log('user updated successfully', result);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+// updateUserEmail(1);
