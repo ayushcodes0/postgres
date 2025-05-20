@@ -78,7 +78,7 @@ function getAllUsers() {
         }
     });
 }
-getAllUsers();
+// getAllUsers();
 function updateUserEmail(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -94,3 +94,51 @@ function updateUserEmail(id) {
     });
 }
 // updateUserEmail(1);
+function createAddressTable() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield client.connect();
+        const result = yield client.query(`
+
+        CREATE TABLE address (
+            id serial PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+            street VARCHAR(100) NOT NULL,
+            city VARCHAR(50) NOT NULL,
+            state VARCHAR(50),
+            country VARCHAR(50) NOT NULL,
+            zip_code VARCHAR(20),
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        
+    `);
+        console.log("address table is created\n", result);
+    });
+}
+// createAddressTable();
+function insertInAddressTable(user_id, street, city, state, country, zip_code) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield client.connect();
+        const insertQuery = `
+        INSERT INTO address (user_id, street, city, state, country, zip_code)
+        VALUES ($1, $2, $3, $4, $5, $6)
+    `;
+        const values = [user_id, street, city, state, country, zip_code];
+        const result = yield client.query(insertQuery, values);
+        console.log(result);
+    });
+}
+// insertInAddressTable(1,"Taktakpur","Varanasi","Uttarpradesh","India","221007");
+function getAllAddress() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect(); // optional if already connected
+            const query = "SELECT * FROM address;"; // $1 is nothing but the first argument expected inside the function.
+            const result = yield client.query(query);
+            console.log('Users:', result.rows);
+        }
+        catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    });
+}
+getAllAddress();
