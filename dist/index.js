@@ -127,7 +127,7 @@ function insertInAddressTable(user_id, street, city, state, country, zip_code) {
         console.log(result);
     });
 }
-// insertInAddressTable(1,"Taktakpur","Varanasi","Uttarpradesh","India","221007");
+// insertInAddressTable(4,"Taktakpur4","Varanasi4","Uttarpradesh4","India4","22100724");
 function getAllAddress() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -141,4 +141,19 @@ function getAllAddress() {
         }
     });
 }
-getAllAddress();
+// getAllAddress();
+function getUsersWithAddress() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield client.connect();
+        const query = `
+        SELECT 
+            u.username,
+            a.street
+        FROM users u
+        JOIN address a ON u.id = a.user_id; 
+    `;
+        const result = yield client.query(query);
+        console.log('Users with Addresses:', result.rows);
+    });
+}
+getUsersWithAddress();

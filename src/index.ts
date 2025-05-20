@@ -126,7 +126,7 @@ async function insertInAddressTable(
     const result = await client.query(insertQuery, values);
     console.log(result);
 }
-// insertInAddressTable(1,"Taktakpur","Varanasi","Uttarpradesh","India","221007");
+// insertInAddressTable(4,"Taktakpur4","Varanasi4","Uttarpradesh4","India4","22100724");
 
 
 async function getAllAddress() {
@@ -139,4 +139,19 @@ async function getAllAddress() {
         console.error("Error fetching users:", error);
     }
 }
-getAllAddress();
+// getAllAddress();
+
+
+async function getUsersWithAddress() {
+    await client.connect();
+    const query = `
+        SELECT 
+            u.username,
+            a.street
+        FROM users u
+        JOIN address a ON u.id = a.user_id; 
+    `;
+    const result = await client.query(query);
+    console.log('Users with Addresses:', result.rows);
+}
+getUsersWithAddress();
