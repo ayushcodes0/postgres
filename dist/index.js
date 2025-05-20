@@ -43,17 +43,25 @@ function insertInUserTable(username, email, password) {
         yield client.connect();
         const insertQuery = "INSERT INTO users (username, email, password) VALUES($1, $2, $3)";
         const values = [username, email, password];
+        // better way to insert instead of directly providing complete query
         const result = yield client.query(insertQuery, values);
         // make sure that the values you are providing is in single quotes not in double quotes
         console.log(result);
     });
 }
 // insertInUserTable("ayush4", "ayush4@ayush.com", "password"); 
-function getUsers() {
+function getUsers(email) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect(); // optional if already connected
-        const result = yield client.query(`SELECT * FROM users;`);
-        console.log('Users:', result.rows);
+        try {
+            yield client.connect(); // optional if already connected
+            const query = "SELECT * FROM users WHERE email = $1;"; // $1 is nothing but the first argument expected inside the function.
+            const values = [email];
+            const result = yield client.query(query, values);
+            console.log('Users:', result.rows);
+        }
+        catch (error) {
+            console.error("Error fetching users:", error);
+        }
     });
 }
-getUsers();
+getUsers("ayush2@ayush.com");

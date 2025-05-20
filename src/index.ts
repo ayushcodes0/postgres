@@ -47,11 +47,18 @@ async function insertInUserTable(username: string, email: string, password: stri
 // insertInUserTable("ayush4", "ayush4@ayush.com", "password"); 
 
 
-async function getUsers() {
-    await client.connect(); // optional if already connected
-    const result = await client.query(`SELECT * FROM users;`);
-    console.log('Users:', result.rows);
+async function getUsers(email: string) {
+    try {
+        await client.connect(); // optional if already connected
+        const query = "SELECT * FROM users WHERE email = $1;";   // $1 is nothing but the first argument expected inside the function.
+        const values = [email];
+        const result = await client.query(query, values);
+        console.log('Users:', result.rows);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
 }
 
 
-getUsers();
+
+getUsers("ayush2@ayush.com");
